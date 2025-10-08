@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="竖屏网页版植物大战僵尸 - 免费在线玩">
+    <meta name="theme-color" content="#4CAF50">
+    <title>植物大战僵尸 - 竖屏版</title>
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        
+        <!-- 主菜单界面 -->
+        <div id="main-menu" class="screen active">
+            <div class="menu-content">
+                <h1 class="game-title">植物大战僵尸</h1>
+                <p class="game-subtitle">竖屏版</p>
+                <div class="menu-buttons">
+                    <button id="btn-start-game" class="btn btn-primary btn-lg">开始游戏</button>
+                    <button id="btn-select-level" class="btn btn-success btn-lg">关卡选择</button>
+                    <button id="btn-game-help" class="btn btn-info btn-lg">游戏说明</button>
+                    <button id="btn-reset-progress" class="btn btn-outline-danger btn-sm mt-3">重置进度</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关卡选择界面 -->
+        <div id="level-select" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-to-menu" class="btn btn-outline-light btn-sm">← 返回</button>
+                <h2>选择关卡</h2>
+            </div>
+            <div class="level-list" id="level-list">
+                <!-- 关卡卡片将通过JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- 关卡准备界面 -->
+        <div id="level-prepare" class="screen">
+            <div class="screen-header">
+                <button id="btn-back-to-levels" class="btn btn-outline-light btn-sm">← 返回</button>
+                <h2 id="prepare-level-name">关卡1：阳光草地</h2>
+            </div>
+            <div class="prepare-content">
+                <div class="level-objective" id="prepare-objective">
+                    <h4>关卡目标</h4>
+                    <p>消灭15个僵尸</p>
+                </div>
+                <div class="available-plants" id="prepare-plants">
+                    <h4>可用植物</h4>
+                    <div class="plant-cards" id="prepare-plant-cards">
+                        <!-- 植物卡片将通过JS动态生成 -->
+                    </div>
+                </div>
+                <button id="btn-start-battle" class="btn btn-success btn-lg mt-3">开始战斗</button>
+            </div>
+        </div>
+
+        <!-- 游戏战斗界面 -->
+        <div id="game-battle" class="screen">
+            <!-- 顶部状态栏 -->
+            <div class="status-bar">
+                <div class="sun-counter">
+                    <span class="sun-icon">☀️</span>
+                    <span id="sun-count">150</span>
+                </div>
+                <div class="wave-progress">
+                    <span id="wave-text">第1波/共5波</span>
+                </div>
+                <button id="btn-pause" class="btn btn-sm btn-outline-light">⏸</button>
+            </div>
+
+            <!-- 植物选择栏 -->
+            <div class="plant-selector" id="plant-selector">
+                <!-- 植物卡片将通过JS动态生成 -->
+            </div>
+
+            <!-- 游戏战场 -->
+            <div class="battlefield" id="battlefield">
+                <div class="grid-container" id="grid-container">
+                    <!-- 5行×3列网格将通过JS动态生成 -->
+                </div>
+                <!-- 僵尸和子弹层 -->
+                <div class="game-layer" id="zombie-layer"></div>
+                <div class="game-layer" id="projectile-layer"></div>
+                <div class="game-layer" id="sun-layer"></div>
+            </div>
+
+            <!-- 底部提示区 -->
+            <div class="hint-bar" id="hint-bar">
+                <p id="hint-text">点击植物后点击格子种植</p>
+            </div>
+        </div>
+
+        <!-- 游戏结果界面 - 胜利 -->
+        <div id="game-victory" class="screen">
+            <div class="result-content">
+                <h1 class="victory-title">🎉 胜利！ 🎉</h1>
+                <div class="victory-animation">🌻</div>
+                <div class="game-stats">
+                    <p>消灭僵尸：<span id="victory-zombies">0</span> 只</p>
+                    <p>损失植物：<span id="victory-plants">0</span> 株</p>
+                    <p>剩余阳光：<span id="victory-sun">0</span></p>
+                </div>
+                <p class="unlock-message" id="unlock-message"></p>
+                <div class="result-buttons">
+                    <button id="btn-next-level" class="btn btn-success btn-lg">下一关</button>
+                    <button id="btn-replay-level" class="btn btn-primary btn-lg">重玩本关</button>
+                    <button id="btn-victory-menu" class="btn btn-secondary">返回菜单</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏结果界面 - 失败 -->
+        <div id="game-defeat" class="screen">
+            <div class="result-content">
+                <h1 class="defeat-title">😔 失败了...</h1>
+                <p class="defeat-reason">僵尸吃掉了你的脑子！</p>
+                <div class="defeat-tips">
+                    <h4>游戏提示：</h4>
+                    <ul>
+                        <li>尝试种植更多的豌豆射手</li>
+                        <li>使用坚果墙保护射手</li>
+                        <li>及时收集阳光</li>
+                    </ul>
+                </div>
+                <div class="result-buttons">
+                    <button id="btn-retry-level" class="btn btn-warning btn-lg">重新挑战</button>
+                    <button id="btn-defeat-menu" class="btn btn-secondary">返回菜单</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏说明界面 -->
+        <div id="game-help" class="screen">
+            <div class="screen-header">
+                <button id="btn-close-help" class="btn btn-outline-light btn-sm">← 返回</button>
+                <h2>游戏说明</h2>
+            </div>
+            <div class="help-content">
+                <section>
+                    <h3>游戏目标</h3>
+                    <ul>
+                        <li>种植植物抵御僵尸入侵</li>
+                        <li>阻止僵尸到达屏幕左侧</li>
+                        <li>消灭所有僵尸波次获得胜利</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>基础操作</h3>
+                    <ol>
+                        <li>点击植物卡片选择植物</li>
+                        <li>点击战场格子种植植物</li>
+                        <li>点击掉落的太阳收集阳光</li>
+                        <li>长按植物可移除（不返还阳光）</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>植物介绍</h3>
+                    <div class="entity-info">
+                        <p><strong>🌻 向日葵（50阳光）：</strong>定期生产阳光，是经济来源</p>
+                        <p><strong>🌱 豌豆射手（100阳光）：</strong>发射豌豆攻击僵尸，基础攻击单位</p>
+                        <p><strong>🥜 坚果墙（50阳光）：</strong>高血量防御植物，保护后方射手</p>
+                        <p><strong>❄️ 寒冰射手（175阳光）：</strong>发射冰豌豆，减缓僵尸速度</p>
+                        <p><strong>🍒 樱桃炸弹（150阳光）：</strong>一次性爆炸，消灭范围内僵尸</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>僵尸介绍</h3>
+                    <div class="entity-info">
+                        <p><strong>🧟 普通僵尸：</strong>基础僵尸，血量低，速度慢</p>
+                        <p><strong>🧟‍♂️ 路障僵尸：</strong>戴着路障，血量中等</p>
+                        <p><strong>🧟‍♀️ 铁桶僵尸：</strong>戴着铁桶，血量高，速度快</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>游戏技巧</h3>
+                    <ul>
+                        <li>前期优先种植向日葵积累阳光</li>
+                        <li>每行至少放置一个攻击性植物</li>
+                        <li>使用坚果墙延缓僵尸前进</li>
+                        <li>合理使用樱桃炸弹应对大波僵尸</li>
+                        <li>及时收集阳光，不要浪费</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <!-- 暂停菜单（模态框） -->
+        <div id="pause-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h2>游戏暂停</h2>
+                <div class="modal-buttons">
+                    <button id="btn-resume" class="btn btn-success btn-lg">继续游戏</button>
+                    <button id="btn-restart" class="btn btn-warning btn-lg">重新开始</button>
+                    <button id="btn-pause-menu" class="btn btn-secondary">返回菜单</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 确认对话框 -->
+        <div id="confirm-modal" class="modal-overlay">
+            <div class="modal-content">
+                <h3 id="confirm-title">确认操作</h3>
+                <p id="confirm-message">确定要执行此操作吗？</p>
+                <div class="modal-buttons">
+                    <button id="btn-confirm-yes" class="btn btn-danger">确定</button>
+                    <button id="btn-confirm-no" class="btn btn-secondary">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS (optional, for some components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Game Scripts -->
+    <script src="storage.js"></script>
+    <script src="levels.js"></script>
+    <script src="plants.js"></script>
+    <script src="zombies.js"></script>
+    <script src="game.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,880 @@
+/* ==================== 全局样式变量 ==================== */
+:root {
+    /* 主色调 - 清新绿色系 */
+    --color-primary: #4CAF50;
+    --color-primary-light: #81C784;
+    --color-primary-dark: #388E3C;
+    
+    /* 辅助色 */
+    --color-secondary: #FFC107;
+    --color-danger: #F44336;
+    --color-success: #8BC34A;
+    
+    /* 中性色 */
+    --color-bg-light: #F5F5F5;
+    --color-bg-dark: #333333;
+    --color-text-primary: #212121;
+    --color-text-secondary: #757575;
+    --color-border: #E0E0E0;
+    
+    /* 游戏元素色 */
+    --color-grass: #7CB342;
+    --color-zombie: #8D6E63;
+    --color-sun: #FFD54F;
+    
+    /* 网格配置 */
+    --cell-width: 90px;
+    --cell-height: 100px;
+    --font-size-base: 14px;
+}
+
+/* ==================== 基础重置 ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background: linear-gradient(to bottom, #87CEEB 0%, #98D8C8 100%);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ==================== 应用容器 ==================== */
+.app-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ==================== 屏幕基础样式 ==================== */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #87CEEB 0%, #98D8C8 50%, #7CB342 100%);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ==================== 主菜单界面 ==================== */
+#main-menu {
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.game-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    animation: titleBounce 2s ease-in-out infinite;
+}
+
+.game-subtitle {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.menu-buttons .btn {
+    width: 100%;
+}
+
+/* ==================== 标题动画 ==================== */
+@keyframes titleBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ==================== 屏幕头部 ==================== */
+.screen-header {
+    background: rgba(76, 175, 80, 0.9);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.screen-header h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 0;
+    flex: 1;
+}
+
+/* ==================== 关卡选择界面 ==================== */
+.level-list {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.level-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 3px solid transparent;
+}
+
+.level-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.level-card.unlocked {
+    border-color: var(--color-primary);
+}
+
+.level-card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #e0e0e0;
+}
+
+.level-card.completed {
+    border-color: var(--color-secondary);
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.level-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+}
+
+.level-status {
+    font-size: 1.5rem;
+}
+
+.level-description {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ==================== 关卡准备界面 ==================== */
+.prepare-content {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.level-objective {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.level-objective h4 {
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.available-plants {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.available-plants h4 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.plant-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.prepare-plant-card {
+    background: #f0f0f0;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.plant-emoji {
+    font-size: 2.5rem;
+}
+
+.plant-info {
+    flex: 1;
+}
+
+.plant-name {
+    font-weight: bold;
+    color: var(--color-text-primary);
+    margin-bottom: 5px;
+}
+
+.plant-cost {
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.plant-description {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ==================== 游戏战斗界面 ==================== */
+#game-battle {
+    background: linear-gradient(to bottom, #87CEEB 0%, #7CB342 100%);
+}
+
+/* 顶部状态栏 */
+.status-bar {
+    background: rgba(76, 175, 80, 0.95);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.sun-counter {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.sun-icon {
+    font-size: 1.5rem;
+    animation: sunGlow 2s ease-in-out infinite;
+}
+
+.wave-progress {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* 植物选择栏 */
+.plant-selector {
+    background: rgba(139, 195, 74, 0.9);
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 99;
+}
+
+.plant-selector::-webkit-scrollbar {
+    height: 4px;
+}
+
+.plant-selector::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+}
+
+.plant-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 70px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.plant-card:active {
+    transform: scale(0.95);
+}
+
+.plant-card.selected {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.plant-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.plant-card.cooling {
+    opacity: 0.6;
+}
+
+.plant-card-emoji {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.plant-card-cost {
+    color: var(--color-secondary);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.cooldown-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+/* 游戏战场 */
+.battlefield {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.grid-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(3, var(--cell-width));
+    grid-template-rows: repeat(5, var(--cell-height));
+    gap: 5px;
+}
+
+.grid-cell {
+    width: var(--cell-width);
+    height: var(--cell-height);
+    background: linear-gradient(135deg, #8BC34A 0%, #7CB342 100%);
+    border: 2px solid #689F38;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.grid-cell:hover {
+    background: linear-gradient(135deg, #9CCC65 0%, #8BC34A 100%);
+}
+
+.grid-cell.preview {
+    background: linear-gradient(135deg, rgba(255, 235, 59, 0.5) 0%, rgba(255, 193, 7, 0.5) 100%);
+}
+
+.grid-cell.occupied {
+    cursor: default;
+}
+
+/* 游戏对象层 */
+.game-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.game-layer > * {
+    pointer-events: auto;
+}
+
+/* 植物对象 */
+.plant-object {
+    position: absolute;
+    text-align: center;
+    animation: plantGrow 0.3s ease-out;
+    cursor: pointer;
+}
+
+.plant-object-emoji {
+    font-size: 2.5rem;
+    display: block;
+}
+
+.health-bar {
+    width: 80%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    margin: 2px auto;
+    overflow: hidden;
+}
+
+.health-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A);
+    transition: width 0.3s;
+}
+
+.health-bar-fill.low {
+    background: linear-gradient(to right, #F44336, #FF5722);
+}
+
+/* 僵尸对象 */
+.zombie-object {
+    position: absolute;
+    text-align: center;
+    animation: zombieWalk 1s infinite;
+}
+
+.zombie-object-emoji {
+    font-size: 2.5rem;
+    display: block;
+}
+
+.zombie-object.slowed {
+    filter: brightness(0.8) saturate(1.5);
+}
+
+/* 子弹对象 */
+.projectile-object {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transition: all 0.05s linear;
+}
+
+.projectile-normal {
+    background: radial-gradient(circle, #8BC34A, #558B2F);
+    box-shadow: 0 0 5px rgba(139, 195, 74, 0.8);
+}
+
+.projectile-ice {
+    background: radial-gradient(circle, #81D4FA, #0277BD);
+    box-shadow: 0 0 5px rgba(129, 212, 250, 0.8);
+}
+
+/* 太阳对象 */
+.sun-object {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #FFF59D 0%, #FFD54F 50%, #FFA726 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    animation: sunFloat 3s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.sun-object:hover {
+    transform: scale(1.1);
+}
+
+.sun-object.collecting {
+    animation: collectSun 0.5s ease-in forwards;
+}
+
+/* 底部提示区 */
+.hint-bar {
+    background: rgba(76, 175, 80, 0.9);
+    padding: 10px 15px;
+    text-align: center;
+    color: #fff;
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.hint-bar.warning {
+    background: rgba(244, 67, 54, 0.9);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* ==================== 游戏结果界面 ==================== */
+.result-content {
+    text-align: center;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.victory-title {
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.victory-animation {
+    font-size: 5rem;
+    animation: spin 2s linear infinite;
+    margin-bottom: 20px;
+}
+
+.defeat-title {
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 15px;
+}
+
+.defeat-reason {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.game-stats {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 300px;
+}
+
+.game-stats p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: var(--color-text-primary);
+}
+
+.unlock-message {
+    background: rgba(255, 193, 7, 0.9);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 10px auto;
+    font-weight: bold;
+}
+
+.defeat-tips {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 350px;
+    text-align: left;
+}
+
+.defeat-tips h4 {
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.defeat-tips ul {
+    list-style-position: inside;
+    color: var(--color-text-primary);
+}
+
+.defeat-tips li {
+    margin: 8px 0;
+}
+
+.result-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+    margin: 20px auto 0;
+}
+
+/* ==================== 游戏说明界面 ==================== */
+.help-content {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.help-content section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.help-content h3 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.help-content ul,
+.help-content ol {
+    margin-left: 20px;
+}
+
+.help-content li {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.entity-info p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+/* ==================== 模态框 ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 90%;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2,
+.modal-content h3 {
+    color: var(--color-primary);
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ==================== 动画定义 ==================== */
+@keyframes plantGrow {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes zombieWalk {
+    0%, 100% {
+        transform: translateX(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateX(-2px) rotate(2deg);
+    }
+}
+
+@keyframes sunGlow {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.3);
+    }
+}
+
+@keyframes sunFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes collectSun {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--target-x), var(--target-y)) scale(0.3);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes flash {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.flash {
+    animation: flash 0.3s;
+}
+
+/* ==================== 响应式设计 ==================== */
+/* 平板设备 */
+@media (min-width: 768px) {
+    :root {
+        --cell-width: 100px;
+        --cell-height: 120px;
+        --font-size-base: 16px;
+    }
+
+    .game-title {
+        font-size: 3.5rem;
+    }
+
+    .menu-buttons {
+        max-width: 350px;
+    }
+}
+
+/* 桌面设备 */
+@media (min-width: 1024px) {
+    :root {
+        --cell-width: 110px;
+        --cell-height: 130px;
+        --font-size-base: 18px;
+    }
+
+    .app-container {
+        max-width: 600px;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-title {
+        font-size: 4rem;
+    }
+}
+
+/* 触摸优化 - 确保最小触摸区域 */
+.btn,
+.plant-card,
+.grid-cell,
+.sun-object {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+/* 防止文本选择和拖拽 */
+img,
+.plant-object-emoji,
+.zombie-object-emoji,
+.sun-object {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(76, 175, 80, 0.6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(76, 175, 80, 0.8);
+}
+
